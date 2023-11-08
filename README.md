@@ -15,3 +15,21 @@ time and memomary management, I bet there's still a lot of room for improvement.
 problem.
 
 If you wish to contribute to this project, feel free to contact me on my [LinkedIn](https://www.linkedin.com/in/matteo-campagnoli-3a515b1bb/). 
+---
+### Tutorial
+
+Given a linear programming optimization problem written in standard form, import `numpy` and `LinearProblem` from the file `src/LinearProblem.py`. Create a *m x n* numpy array containing your constraints. 
+
+    A = np.array([[1,2,3,1],
+                  [2,1,1,2]])
+The objective function coefficients and the constraints parameters are stored as well in numpy arrays
+
+    b = np.array([3,4])
+    c = np.array([-1,-3,-5,-2]) 
+    
+   Instantiate a `LinearProgramming(A,b,c)` object, the constructor takes as input the three quantities we've just defined. To calculate the solution, run the command `solve("method")` and specify the desired method (for now "simplex" is the only one available). 
+
+    prob = LinearProblem(A,b,c)
+    sol = prob.solve("simplex")
+    
+   To find the actual optimum of the problem, run `prob.optimum()`. 
