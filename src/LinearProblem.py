@@ -15,6 +15,7 @@ def illimitateOpt(A):
                 for j in range(m):
                     if A[j][i] > 0:
                         return False
+        print(A)
         return True
 
 class LinearProblem:
@@ -89,8 +90,8 @@ class LinearProblem:
             m = len(self.T[:]) - 1
             base = ""
             for i in range(m-1):
-                base += ("x" + str(self.__inbase()[i]) + ", ")
-            base += ("x" + str(self.__inbase()[m-1]))
+                base += ("x" + str(self.__inbase()[i] + 1) + ", ")
+            base += ("x" + str(self.__inbase()[m-1] + 1))
             if illimitateOpt(self.T):
                 return base, np.ones(m) * np.inf
             return base, self.__solution()
