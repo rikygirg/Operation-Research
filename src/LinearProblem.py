@@ -7,6 +7,16 @@ def firstNeg(vec):
             return i
     return -1
 
+def illimitateOpt(A):
+    if np.any(A[0,:]<0):
+        m,n = A.shape
+        for i in range(n):
+            if A[0,:][i]<0:
+                for j in range(m):
+                    if A[j][i] > 0:
+                        return False
+        return True
+
 class LinearProblem:
     #Private Methods
     def __inbase(self):
@@ -21,7 +31,7 @@ class LinearProblem:
 
     def __simplex(self):
         m,n = self.T.shape
-        while np.any(self.T[0,:]<0):
+        while np.any(self.T[0,:]<0) and not illimitateOpt(self.T):
             A = self.T
             idx = firstNeg(self.T[0,:])
             quotient = 10000*np.ones(m)
@@ -66,10 +76,21 @@ class LinearProblem:
 
     #Public methods
     def optimum(self):
+        #Check if Simplex stopped cause of Illimitate Optimun:
+        if illimitateOpt(self.T):
+            #print(self.T)
+            return "inf, Illimitate Optimum!"
         return self.T[0,-1]
 
 
     def solve(self,method):
         if method=="simplex":
             self.__simplex()
-            return self.__solution()
+            m = len(self.T[:]) - 1
+            base = ""
+            for i in range(m-1):
+                base += ("x" + str(self.__inbase()[i]) + ", ")
+            base += ("x" + str(self.__inbase()[m-1]))
+            if illimitateOpt(self.T):
+                return base, np.ones(m) * np.inf
+            return base, self.__solution()
